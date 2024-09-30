@@ -1,0 +1,18 @@
+{"time":"2024-09-30T17:49:08.703570116+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-09-30T17:49:08.703617538+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20240930_174908-45xdoffx/logs/debug-core.log"}
+{"time":"2024-09-30T17:49:08.710766638+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-09-30T17:49:08.724636151+02:00","level":"INFO","msg":"created new stream","id":"45xdoffx"}
+{"time":"2024-09-30T17:49:08.724689231+02:00","level":"INFO","msg":"stream: started","id":"45xdoffx"}
+{"time":"2024-09-30T17:49:08.724716189+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"45xdoffx"}}
+{"time":"2024-09-30T17:49:08.724738539+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"45xdoffx"}}
+{"time":"2024-09-30T17:49:08.724772412+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"45xdoffx"}}
+{"time":"2024-09-30T17:49:09.092428847+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-09-30T17:49:09.093663642+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-09-30T17:49:09.274330841+02:00","level":"INFO","msg":"stream: closing","id":"45xdoffx"}
+{"time":"2024-09-30T17:49:09.274408295+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-09-30T17:49:09.274535196+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-09-30T17:49:12.557365619+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-09-30T17:49:12.833136057+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"45xdoffx"}}
+{"time":"2024-09-30T17:49:12.833239912+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"45xdoffx"}}
+{"time":"2024-09-30T17:49:12.83324515+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"45xdoffx"}}
+{"time":"2024-09-30T17:49:12.833348724+02:00","level":"INFO","msg":"stream: closed","id":"45xdoffx"}

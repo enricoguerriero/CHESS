@@ -2,3 +2,4 @@ FinalProjectVenv/*
 __psycache__/*
 models/*
 data/*
+architectures/__psycache__

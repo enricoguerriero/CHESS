@@ -10,6 +10,7 @@ from tqdm import tqdm
 import wandb
 import os
 import chess.pgn
+import time
 from torch.utils import data
 
 class DQN(nn.Module):
@@ -140,6 +141,7 @@ class DQNAgent:
 
     def train(self, episodes=1000, batch_size=32, WandB=None):
         """Training loop for the agent."""
+        start = time.time()
         for e in tqdm(range(episodes), desc="Training", unit="episode"):
             board = chess.Board()
             state = self.board_to_state(board)
@@ -166,15 +168,20 @@ class DQNAgent:
                     self.replay(batch_size)
             result = board.result() if board.is_game_over() else "Game in progress"
             print(f"Episode {e+1}/{episodes} - Result: {result} - Epsilon: {self.epsilon}")
+            end = time.time()
+            episode_time = end - start
             if WandB is not None:
                 wandb.log({
                     "epoch":e+1,
                     "result":result,
                     "reward":reward,
-                    "epsilon":self.epsilon
+                    "epsilon":self.epsilon,
+                    "episode_time":episode_time
                 })
+            start = time.time()
+            
     
-    def supervised_train(self, dataset_path, epochs=1, batch_size=64):
+    def supervised_train(self, dataset_path, epochs=1, batch_size=64, save_path = 'pretrained_model.pth'):
         """Pre-train the model using supervised learning."""
         self.model.train()
         criterion = nn.CrossEntropyLoss()
@@ -185,6 +192,9 @@ class DQNAgent:
         
         for epoch in tqdm(range(epochs), desc="Supervised Training", unit="epoch"):
             total_loss = 0
+            correct_predictions = 0
+            total_samples = 0
+            start = time.time()
             for states, actions in data_loader:
                 optimizer.zero_grad()
                 outputs = self.model(states)
@@ -192,10 +202,32 @@ class DQNAgent:
                 loss.backward()
                 optimizer.step()
                 total_loss += loss.item()
+                _, predicted_actions = torch.max(outputs, 1)  # Get the predicted class
+                correct_predictions += (predicted_actions == actions).sum().item()  # Count correct predictions
+                total_samples += actions.size(0)
+                
             avg_loss = total_loss / len(data_loader)
+            accuracy = correct_predictions / total_samples
             print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss}")
+            end = time.time()
+            epoch_time = end - start
+            wandb.log({
+                "training/loss":avg_loss,
+                "training/accuracy":accuracy,
+                "training/epoch_time":epoch_time
+            })
+            start = time.time()
         # Save the pre-trained model
-        torch.save(self.model.state_dict(), 'pretrained_model1.pth')
+        torch.save(self.model.state_dict(), save_path)
+        
+    def load_pretrained_weights(self, model_path = "pretrained_model.pth"):
+        """Load pretrained weights into the model."""
+        if os.path.exists(model_path):
+            self.model.load_state_dict(torch.load(model_path))
+            self.model.eval()
+            print(f"Loaded pretrained model from {model_path}")
+        else:
+            print(f"No model found at {model_path}, starting from scratch.")
     
 
 class ChessDataset(data.IterableDataset):
@@ -249,6 +281,8 @@ class ChessDataset(data.IterableDataset):
 if __name__ == "__main__":
     # Instantiate and train the agent
     agent = DQNAgent()
+    # load the pre-trained model
+    agent.load_pretrained_weights()
     # pretrain the model
     agent.supervised_train("./data/data_01_15.pgn", 1, 64)
     # train the agent

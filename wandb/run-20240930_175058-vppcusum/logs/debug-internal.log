@@ -1,0 +1,10 @@
+{"time":"2024-09-30T17:50:58.241087063+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-09-30T17:50:58.241118072+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20240930_175058-vppcusum/logs/debug-core.log"}
+{"time":"2024-09-30T17:50:58.246237723+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-09-30T17:50:58.254962863+02:00","level":"INFO","msg":"created new stream","id":"vppcusum"}
+{"time":"2024-09-30T17:50:58.255012171+02:00","level":"INFO","msg":"stream: started","id":"vppcusum"}
+{"time":"2024-09-30T17:50:58.255079917+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"vppcusum"}}
+{"time":"2024-09-30T17:50:58.255084177+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"vppcusum"}}
+{"time":"2024-09-30T17:50:58.255115676+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"vppcusum"}}
+{"time":"2024-09-30T17:50:58.593338195+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-09-30T17:50:58.594635708+02:00","level":"INFO","msg":"Starting system monitor"}

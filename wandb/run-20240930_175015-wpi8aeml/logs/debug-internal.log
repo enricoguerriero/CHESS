@@ -1,0 +1,18 @@
+{"time":"2024-09-30T17:50:15.246448648+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-09-30T17:50:15.246475258+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20240930_175015-wpi8aeml/logs/debug-core.log"}
+{"time":"2024-09-30T17:50:15.252625557+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-09-30T17:50:15.261013014+02:00","level":"INFO","msg":"created new stream","id":"wpi8aeml"}
+{"time":"2024-09-30T17:50:15.261081179+02:00","level":"INFO","msg":"stream: started","id":"wpi8aeml"}
+{"time":"2024-09-30T17:50:15.261119732+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"wpi8aeml"}}
+{"time":"2024-09-30T17:50:15.26115542+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"wpi8aeml"}}
+{"time":"2024-09-30T17:50:15.261188316+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"wpi8aeml"}}
+{"time":"2024-09-30T17:50:15.566127375+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-09-30T17:50:15.567579376+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-09-30T17:50:17.249034694+02:00","level":"INFO","msg":"stream: closing","id":"wpi8aeml"}
+{"time":"2024-09-30T17:50:17.249094688+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-09-30T17:50:17.249378104+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-09-30T17:50:19.678683126+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-09-30T17:50:19.960254039+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"wpi8aeml"}}
+{"time":"2024-09-30T17:50:19.960378566+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"wpi8aeml"}}
+{"time":"2024-09-30T17:50:19.960360686+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"wpi8aeml"}}
+{"time":"2024-09-30T17:50:19.960611487+02:00","level":"INFO","msg":"stream: closed","id":"wpi8aeml"}

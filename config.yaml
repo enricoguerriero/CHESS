@@ -1,14 +1,18 @@
 model:
-  name: "MyNeuralNet"
-  layers: 3
-  units_per_layer: [64, 128, 256]
-  activation: "relu"
-
-training:
-  batch_size: 32
-  epochs: 50
-  learning_rate: 0.001
+  name: "QNN1"
+  load: False # False or the name of the model
+  save: True # for overwriting
 
 data:
-  train_data_path: "data/processed/train.csv"
-  validation_data_path: "data/processed/val.csv"
+  data_path: "data/data_01_15.pgn"
+
+pretraining:
+  enabled: True
+  batch_size: 256
+  epochs: 3
+  learning_rate: 0.001
+
+training:
+  enabled: True
+  episodes: 100
+  batch_size: 32
