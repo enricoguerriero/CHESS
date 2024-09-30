@@ -1,4 +1,5 @@
 model:
+  run_name: "Provolone"
   name: "QNN1"
   load: False # False or the name of the model
   save: True # for overwriting
@@ -7,7 +8,7 @@ data:
   data_path: "data/data_01_15.pgn"
 
 pretraining:
-  enabled: True
+  enabled: False
   batch_size: 256
   epochs: 3
   learning_rate: 0.001

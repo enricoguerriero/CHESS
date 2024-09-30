@@ -1,0 +1,18 @@
+{"time":"2024-09-30T17:54:09.639458801+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-09-30T17:54:09.639486458+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20240930_175409-wso2s2im/logs/debug-core.log"}
+{"time":"2024-09-30T17:54:09.64527051+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-09-30T17:54:09.654824249+02:00","level":"INFO","msg":"created new stream","id":"wso2s2im"}
+{"time":"2024-09-30T17:54:09.654877049+02:00","level":"INFO","msg":"stream: started","id":"wso2s2im"}
+{"time":"2024-09-30T17:54:09.654968261+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"wso2s2im"}}
+{"time":"2024-09-30T17:54:09.654957017+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"wso2s2im"}}
+{"time":"2024-09-30T17:54:09.654969658+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"wso2s2im"}}
+{"time":"2024-09-30T17:54:10.131702698+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-09-30T17:54:10.135260765+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-09-30T17:54:10.301302581+02:00","level":"INFO","msg":"stream: closing","id":"wso2s2im"}
+{"time":"2024-09-30T17:54:10.3013866+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-09-30T17:54:10.301567769+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-09-30T17:54:13.553028637+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-09-30T17:54:13.802977018+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"wso2s2im"}}
+{"time":"2024-09-30T17:54:13.803075774+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"wso2s2im"}}
+{"time":"2024-09-30T17:54:13.803120752+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"wso2s2im"}}
+{"time":"2024-09-30T17:54:13.803230403+02:00","level":"INFO","msg":"stream: closed","id":"wso2s2im"}

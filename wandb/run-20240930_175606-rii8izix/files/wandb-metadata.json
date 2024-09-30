@@ -1,0 +1,32 @@
+{
+  "os":  "Linux-6.8.0-45-generic-x86_64-with-glibc2.39",
+  "python":  "3.12.3",
+  "startedAt":  "2024-09-30T15:56:06.362292Z",
+  "program":  "/home/enrico/UiS/DNN/CHESS/main.py",
+  "codePath":  "main.py",
+  "git":  {
+    "remote":  "https://github.com/enricoguerriero/CHESS.git",
+    "commit":  "62f5bb40af430657a89a4cb0cb14b3bdf6bd3db6"
+  },
+  "email":  "enrico.guerriero@studenti.unitn.it",
+  "root":  "/home/enrico/UiS/DNN/CHESS",
+  "host":  "antonello",
+  "username":  "enrico",
+  "executable":  "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/bin/python3",
+  "codePathLocal":  "main.py",
+  "cpu_count":  8,
+  "cpu_count_logical":  16,
+  "disk":  {
+    "/":  {
+      "total":  "501809635328",
+      "used":  "87179608064"
+    }
+  },
+  "memory":  {
+    "total":  "7636664320"
+  },
+  "cpu":  {
+    "count":  8,
+    "countLogical":  16
+  }
+}

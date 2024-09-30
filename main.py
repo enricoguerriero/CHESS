@@ -11,10 +11,10 @@ if __name__ == '__main__':
     
     wandb.login() 
     wandb.init(project = 'chess-qnn',
-        name = model['name'])
+        name = model['run_name'])
     wandb.log({
         "data": data if pretraining['enabled'] else None,
-        "pretraining": pretraining if pretraining['enabledmodel_name'] else None,
+        "pretraining": pretraining if pretraining['enabled'] else None,
         "training": training if training['enabled'] else None
     })
 

@@ -139,7 +139,7 @@ class DQNAgent:
         else:
             return 0  # Intermediate reward
 
-    def train(self, episodes=1000, batch_size=32, WandB=None):
+    def train(self, episodes=1000, batch_size=32, WandB=None, save_path = 'model.pth'):
         """Training loop for the agent."""
         start = time.time()
         for e in tqdm(range(episodes), desc="Training", unit="episode"):
@@ -172,13 +172,14 @@ class DQNAgent:
             episode_time = end - start
             if WandB is not None:
                 wandb.log({
-                    "epoch":e+1,
+                    "episode":e+1,
                     "result":result,
                     "reward":reward,
                     "epsilon":self.epsilon,
                     "episode_time":episode_time
                 })
             start = time.time()
+        torch.save(self.model.state_dict(), save_path)
             
     
     def supervised_train(self, dataset_path, epochs=1, batch_size=64, save_path = 'pretrained_model.pth'):
