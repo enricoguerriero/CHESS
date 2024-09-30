@@ -1,0 +1,4 @@
+FinalProjectVenv/*
+__psycache__/*
+models/*
+data/*

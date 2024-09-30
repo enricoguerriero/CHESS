@@ -27,6 +27,14 @@ def get_game_phase(board):
     else:
         return 'endgame'
 
+def get_own_pieces(board, is_white):
+    """
+    Returns a set of squares occupied by the player's pieces.
+    """
+    own_pieces = set()
+    for piece_type in range(1, 7):  # chess.PAWN to chess.KING (1 to 6)
+        own_pieces.update(board.pieces(piece_type, is_white))
+    return own_pieces
 
 # Pawns positional values
 
@@ -573,21 +581,24 @@ def evaluate_threats(board):
     evaluation = 0
     for is_white in [True, False]:
         factor = -1 if is_white else 1  # Penalize own threats
-        own_pieces = board.pieces(chess.PIECE_TYPES, is_white)
-        opponent_attackers = board.attackers(not is_white)
+        own_pieces = get_own_pieces(board, is_white)
+        
         for square in own_pieces:
             if board.is_attacked_by(not is_white, square):
                 if not board.is_attacked_by(is_white, square):
-                    # Hanging piece
-                    evaluation += factor * piece_values[board.piece_type_at(square)]
+                    # Hanging piece detected
+                    piece = board.piece_at(square)
+                    if piece:
+                        evaluation += factor * piece_values.get(piece.piece_type, 0)
     return evaluation
+
 
 def evaluate_pins(board):
     evaluation = 0
     for is_white in [True, False]:
         factor = -1 if is_white else 1
         king_square = list(board.pieces(chess.KING, is_white))[0]
-        own_pieces = board.pieces(chess.PIECE_TYPES, is_white) - {king_square}
+        own_pieces = get_own_pieces(board, is_white) - {king_square}
         for square in own_pieces:
             if board.is_pinned(is_white, square):
                 piece_value = piece_values[board.piece_type_at(square)]
@@ -697,31 +708,42 @@ def detect_skewers(board, is_white):
 
 def detect_skewer_on_line(board, square, is_white):
     """
-    Checks for skewers along lines from a given square.
+    Checks for skewers along lines (ranks, files, and diagonals) from a given square.
     Returns a tuple of (front_piece, back_piece) if a skewer is detected.
     """
     enemy_color = not is_white
-    directions = [chess.NORTH, chess.SOUTH, chess.EAST, chess.WEST,
-                  chess.NORTH_EAST, chess.NORTH_WEST, chess.SOUTH_EAST, chess.SOUTH_WEST]
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1),  # Files and ranks: North, South, West, East
+                  (-1, -1), (-1, 1), (1, -1), (1, 1)]  # Diagonals: NW, NE, SW, SE
     
     for direction in directions:
-        squares_in_line = chess.SquareSet(chess.ray(square, direction))
+        dx, dy = direction
+        x, y = chess.square_file(square), chess.square_rank(square)
         pieces_in_line = []
-        for sq in squares_in_line:
+
+        # Move along the direction until blocked or edge of the board
+        while 0 <= x + dx < 8 and 0 <= y + dy < 8:
+            x += dx
+            y += dy
+            sq = chess.square(x, y)
             piece = board.piece_at(sq)
+
             if piece:
                 if piece.color == enemy_color:
                     pieces_in_line.append(piece)
                 else:
                     break  # Blocked by own piece
+
+            # Check if we have two enemy pieces in line
             if len(pieces_in_line) == 2:
-                # Skewer detected
                 front_piece = pieces_in_line[0]
                 back_piece = pieces_in_line[1]
+                
+                # Ensure it's a skewer: front piece must be more valuable than the back piece
                 if piece_values[front_piece.piece_type] > piece_values[back_piece.piece_type]:
                     return (front_piece, back_piece)
                 else:
-                    break  # Not a skewer if front piece is less valuable
+                    break  # Not a skewer if the front piece is less valuable
+
     return None
 
 def detect_vulnerable_to_skewers(board, is_white):
@@ -961,11 +983,33 @@ def evaluate_weak_squares(board, king_square, is_white):
     """
     penalty = 0
     weak_square_penalty = 15
-    squares_around_king = chess.SquareSet(chess.square_ring(king_square, 1))
     own_pawns = board.pieces(chess.PAWN, is_white)
 
+    # Manually calculate the squares around the king (a 3x3 grid centered on the king)
+    file = chess.square_file(king_square)
+    rank = chess.square_rank(king_square)
+    squares_around_king = set()
+
+    # Iterate over the 3x3 area around the king
+    for dx in [-1, 0, 1]:
+        for dy in [-1, 0, 1]:
+            if dx == 0 and dy == 0:
+                continue  # Skip the king's square itself
+            new_file = file + dx
+            new_rank = rank + dy
+            if 0 <= new_file <= 7 and 0 <= new_rank <= 7:
+                square = chess.square(new_file, new_rank)
+                squares_around_king.add(square)
+
+    # Check if each square around the king is weak (not defended by pawns)
     for square in squares_around_king:
-        if not any(board.piece_at(sq) and board.piece_at(sq).piece_type == chess.PAWN and board.piece_at(sq).color == is_white for sq in board.attackers(is_white, square)):
+        # Check if the square is attacked by a friendly pawn
+        protected_by_pawn = any(
+            pawn_square in own_pawns for pawn_square in board.attackers(is_white, square)
+        )
+
+        # If no pawns are protecting this square, it's weak
+        if not protected_by_pawn:
             penalty += weak_square_penalty
 
     return penalty
