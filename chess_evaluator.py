@@ -884,7 +884,6 @@ def evaluate_open_lines_to_king(board, king_square, is_white):
     Evaluates penalties for open files and diagonals leading to the king.
     """
     penalty = 0
-    own_pawns = board.pieces(chess.PAWN, is_white)
     file = chess.square_file(king_square)
     rank = chess.square_rank(king_square)
 
@@ -895,20 +894,27 @@ def evaluate_open_lines_to_king(board, king_square, is_white):
     elif file_status == 'semi-open':
         penalty += 15
 
-    # Check for open diagonals
-    # Define directions for diagonals
-    directions = [chess.DIAGONAL_ATTACKS[chess.NE], chess.DIAGONAL_ATTACKS[chess.NW],
-                  chess.DIAGONAL_ATTACKS[chess.SE], chess.DIAGONAL_ATTACKS[chess.SW]]
+    # Define the directions for diagonal movement
+    directions = [(-1, 1), (1, 1), (-1, -1), (1, -1)]  # NW, NE, SW, SE
 
+    # Check for open diagonals in the four diagonal directions
     for direction in directions:
-        for sq in direction[king_square]:
+        dx, dy = direction
+        x, y = file, rank
+        
+        # Move along the diagonal until a piece or board edge is reached
+        while 0 <= x + dx < 8 and 0 <= y + dy < 8:
+            x += dx
+            y += dy
+            sq = chess.square(x, y)
             piece = board.piece_at(sq)
+            
             if piece:
                 if piece.color != is_white and piece.piece_type in [chess.BISHOP, chess.QUEEN]:
+                    # Penalize for enemy bishops or queens on the diagonal
                     penalty += 20
-                break
-            else:
-                continue  # Keep checking along the diagonal
+                break  # Stop checking further along the diagonal if a piece is found
+            # Continue checking further along the diagonal if it's empty
 
     return penalty
 
@@ -920,15 +926,31 @@ def evaluate_attackers_near_king(board, king_square, is_white, game_phase):
     enemy_color = not is_white
     attackers = 0
     attack_value = 10 if game_phase == 'middlegame' else 5
-    squares_around_king = chess.SquareSet(chess.square_ring(king_square, 1))
 
+    # Manually calculate the squares around the king (a 3x3 grid centered on the king)
+    file = chess.square_file(king_square)
+    rank = chess.square_rank(king_square)
+    squares_around_king = set()
+
+    # Iterate over the 3x3 area around the king
+    for dx in [-1, 0, 1]:
+        for dy in [-1, 0, 1]:
+            if dx == 0 and dy == 0:
+                continue  # Skip the king's square itself
+            new_file = file + dx
+            new_rank = rank + dy
+            if 0 <= new_file <= 7 and 0 <= new_rank <= 7:
+                square = chess.square(new_file, new_rank)
+                squares_around_king.add(square)
+
+    # Check for attackers from enemy pieces
     for piece_type in [chess.QUEEN, chess.ROOK, chess.BISHOP, chess.KNIGHT]:
         enemy_pieces = board.pieces(piece_type, enemy_color)
         for piece_square in enemy_pieces:
             attacks = board.attacks(piece_square)
             if attacks & squares_around_king:
                 attackers += 1
-                penalty += attack_value * piece_values[piece_type] / 100  # Adjust value
+                penalty += attack_value * piece_values[piece_type] / 100  # Adjust value as needed
 
     return penalty
 
@@ -987,10 +1009,10 @@ def king_safety(board, is_white):
     factor = 1 if is_white else -1
     game_phase = get_game_phase(board)
     king_square = list(board.pieces(chess.KING, is_white))[0]
-    rank = chess.square_rank(king_square)
-    file = chess.square_file(king_square)
-    own_pawns = board.pieces(chess.PAWN, is_white)
-    enemy_pieces = board.pieces(chess.PIECE_TYPES, not is_white)
+    # rank = chess.square_rank(king_square)
+    # file = chess.square_file(king_square)
+    # own_pawns = board.pieces(chess.PAWN, is_white)
+    # enemy_pieces = board.pieces(chess.PIECE_TYPES, not is_white)
 
     # 1. Pawn Shield Integrity
     pawn_shield_penalty = evaluate_pawn_shield(board, king_square, is_white, game_phase)
