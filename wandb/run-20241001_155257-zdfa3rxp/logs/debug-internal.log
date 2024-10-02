@@ -1,0 +1,18 @@
+{"time":"2024-10-01T15:52:57.221479273+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T15:52:57.221498619+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_155257-zdfa3rxp/logs/debug-core.log"}
+{"time":"2024-10-01T15:52:57.229775947+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T15:52:57.235844717+02:00","level":"INFO","msg":"created new stream","id":"zdfa3rxp"}
+{"time":"2024-10-01T15:52:57.236017641+02:00","level":"INFO","msg":"stream: started","id":"zdfa3rxp"}
+{"time":"2024-10-01T15:52:57.236060244+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"zdfa3rxp"}}
+{"time":"2024-10-01T15:52:57.2360314+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"zdfa3rxp"}}
+{"time":"2024-10-01T15:52:57.23610138+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"zdfa3rxp"}}
+{"time":"2024-10-01T15:52:57.733701577+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T15:52:57.735658851+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T16:00:01.495934206+02:00","level":"INFO","msg":"stream: closing","id":"zdfa3rxp"}
+{"time":"2024-10-01T16:00:01.495993292+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T16:00:01.496094981+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T16:00:04.253814402+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T16:00:04.715305627+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"zdfa3rxp"}}
+{"time":"2024-10-01T16:00:04.7153703+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"zdfa3rxp"}}
+{"time":"2024-10-01T16:00:04.715388389+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"zdfa3rxp"}}
+{"time":"2024-10-01T16:00:04.715487564+02:00","level":"INFO","msg":"stream: closed","id":"zdfa3rxp"}

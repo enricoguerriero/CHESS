@@ -1,0 +1,20 @@
+{"time":"2024-09-30T20:16:54.020820036+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-09-30T20:16:54.020859776+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20240930_201654-llrcd5jw/logs/debug-core.log"}
+{"time":"2024-09-30T20:16:54.065304289+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-09-30T20:16:54.069687595+02:00","level":"INFO","msg":"created new stream","id":"llrcd5jw"}
+{"time":"2024-09-30T20:16:54.069722446+02:00","level":"INFO","msg":"stream: started","id":"llrcd5jw"}
+{"time":"2024-09-30T20:16:54.069769449+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"llrcd5jw"}}
+{"time":"2024-09-30T20:16:54.069781811+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"llrcd5jw"}}
+{"time":"2024-09-30T20:16:54.069761976+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"llrcd5jw"}}
+{"time":"2024-09-30T20:16:54.519487112+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-09-30T20:16:54.520301111+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-09-30T22:03:25.294460255+02:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/guerriero/chess-qnn/llrcd5jw/file_stream"}
+{"time":"2024-09-30T23:35:25.226472942+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2024-10-01T04:36:10.939840642+02:00","level":"INFO","msg":"stream: closing","id":"llrcd5jw"}
+{"time":"2024-10-01T04:36:10.940350344+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T04:36:10.941310243+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T04:36:13.775680923+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T04:36:14.025369952+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"llrcd5jw"}}
+{"time":"2024-10-01T04:36:14.025456556+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"llrcd5jw"}}
+{"time":"2024-10-01T04:36:14.025449921+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"llrcd5jw"}}
+{"time":"2024-10-01T04:36:14.025698975+02:00","level":"INFO","msg":"stream: closed","id":"llrcd5jw"}

@@ -1,0 +1,1 @@
+{"_timestamp":1.7277949673961537e+09,"_wandb":{"runtime":44},"gamma":0.9,"criterion":"MSELoss","_runtime":44.213684913,"epsilon_min":0.5,"epsilon":0.7067991965437553,"_step":6940,"load":true,"total_reward":1,"optimizer":"Adam","learning_rate":0.1,"epsilon_decay":0.99995,"num_episodes":100000}

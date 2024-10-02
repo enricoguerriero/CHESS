@@ -1,0 +1,1 @@
+{"total_reward":-1,"gamma":0.9,"_step":100050,"optimizer":"Adam","epsilon":0.6999762187030283,"_wandb":{"runtime":603},"learning_rate":0.1,"epsilon_decay":0.99995,"_runtime":603.241772819,"load":true,"criterion":"MSELoss","vs_self":{"player1_wins":0,"player2_wins":50,"draws":0},"num_episodes":100000,"epsilon_min":0.7,"_timestamp":1.7277972244249938e+09}

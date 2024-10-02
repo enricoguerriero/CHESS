@@ -1,0 +1,18 @@
+{"time":"2024-10-01T16:14:33.39093032+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T16:14:33.390957978+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_161433-6boubso9/logs/debug-core.log"}
+{"time":"2024-10-01T16:14:33.395076095+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T16:14:33.401482877+02:00","level":"INFO","msg":"created new stream","id":"6boubso9"}
+{"time":"2024-10-01T16:14:33.401539658+02:00","level":"INFO","msg":"stream: started","id":"6boubso9"}
+{"time":"2024-10-01T16:14:33.401559284+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"6boubso9"}}
+{"time":"2024-10-01T16:14:33.401579189+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"6boubso9"}}
+{"time":"2024-10-01T16:14:33.401614948+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"6boubso9"}}
+{"time":"2024-10-01T16:14:33.749730012+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T16:14:33.751407766+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T16:21:15.552752263+02:00","level":"INFO","msg":"stream: closing","id":"6boubso9"}
+{"time":"2024-10-01T16:21:15.552841448+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T16:21:15.553078274+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T16:21:17.443101616+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T16:21:18.056942647+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"6boubso9"}}
+{"time":"2024-10-01T16:21:18.056987693+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"6boubso9"}}
+{"time":"2024-10-01T16:21:18.057030226+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"6boubso9"}}
+{"time":"2024-10-01T16:21:18.057060257+02:00","level":"INFO","msg":"stream: closed","id":"6boubso9"}

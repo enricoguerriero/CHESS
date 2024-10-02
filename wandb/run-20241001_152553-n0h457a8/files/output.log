@@ -1,0 +1,8 @@
+Using device: cpu
+Traceback (most recent call last):
+  File "/home/enrico/UiS/DNN/CHESS/tictactoe/DQN_ttt_sp.py", line 222, in <module>
+    main()
+  File "/home/enrico/UiS/DNN/CHESS/tictactoe/DQN_ttt_sp.py", line 209, in main
+    "load": True if os.exist(save_path) else False,
+                    ^^^^^^^^
+AttributeError: module 'os' has no attribute 'exist'. Did you mean: '_exists'?

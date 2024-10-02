@@ -1,0 +1,1 @@
+{"_step":0,"data":{"data_path":"data/data_01_15.pgn"},"_wandb":{"runtime":29956},"pretraining":{"batch_size":256,"epochs":2,"learning_rate":0.001,"enabled":true},"training":{"batch_size":32,"enabled":true,"episodes":1000},"_timestamp":1.7277202145945487e+09,"_runtime":0.614482722}

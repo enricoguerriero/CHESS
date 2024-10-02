@@ -1,0 +1,1 @@
+{"epsilon_start":1,"_step":1000,"_timestamp":1.727771592201909e+09,"epsilon_end":0.1,"reward":1,"_runtime":59.801427705,"num_episodes":1000,"target_update_freq":10,"optimizer":"torch.optim.adam.Adam","epsilon_decay":500,"loss_fn":"torch.nn.modules.loss.MSELoss","epsilon":0.22204560218877073,"episode":999,"gamma":0.99,"batch_size":64,"_wandb":{"runtime":59}}

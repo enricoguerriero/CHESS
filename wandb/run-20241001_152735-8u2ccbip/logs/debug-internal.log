@@ -1,0 +1,18 @@
+{"time":"2024-10-01T15:27:35.574254059+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T15:27:35.574276827+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_152735-8u2ccbip/logs/debug-core.log"}
+{"time":"2024-10-01T15:27:35.581071797+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T15:27:35.586911731+02:00","level":"INFO","msg":"created new stream","id":"8u2ccbip"}
+{"time":"2024-10-01T15:27:35.586956919+02:00","level":"INFO","msg":"stream: started","id":"8u2ccbip"}
+{"time":"2024-10-01T15:27:35.587013632+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"8u2ccbip"}}
+{"time":"2024-10-01T15:27:35.586979688+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"8u2ccbip"}}
+{"time":"2024-10-01T15:27:35.587002527+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"8u2ccbip"}}
+{"time":"2024-10-01T15:27:35.964933945+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T15:27:35.965940874+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T15:27:36.542996694+02:00","level":"INFO","msg":"stream: closing","id":"8u2ccbip"}
+{"time":"2024-10-01T15:27:36.543076455+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T15:27:36.543240168+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T15:27:37.332800102+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T15:27:37.560026518+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"8u2ccbip"}}
+{"time":"2024-10-01T15:27:37.560098875+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"8u2ccbip"}}
+{"time":"2024-10-01T15:27:37.560148604+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"8u2ccbip"}}
+{"time":"2024-10-01T15:27:37.560329288+02:00","level":"INFO","msg":"stream: closed","id":"8u2ccbip"}

@@ -1,0 +1,18 @@
+{"time":"2024-10-01T10:27:43.254840116+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T10:27:43.254887469+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_102743-ogwa1yoi/logs/debug-core.log"}
+{"time":"2024-10-01T10:27:43.264674149+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T10:27:43.275659659+02:00","level":"INFO","msg":"created new stream","id":"ogwa1yoi"}
+{"time":"2024-10-01T10:27:43.275706383+02:00","level":"INFO","msg":"stream: started","id":"ogwa1yoi"}
+{"time":"2024-10-01T10:27:43.275773012+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"ogwa1yoi"}}
+{"time":"2024-10-01T10:27:43.275851025+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"ogwa1yoi"}}
+{"time":"2024-10-01T10:27:43.275781184+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"ogwa1yoi"}}
+{"time":"2024-10-01T10:27:43.771903117+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T10:27:43.773191553+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T10:27:44.972323488+02:00","level":"INFO","msg":"stream: closing","id":"ogwa1yoi"}
+{"time":"2024-10-01T10:27:44.972460448+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T10:27:44.972697909+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T10:27:47.776603536+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T10:27:48.021859945+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"ogwa1yoi"}}
+{"time":"2024-10-01T10:27:48.02191058+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"ogwa1yoi"}}
+{"time":"2024-10-01T10:27:48.021895215+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"ogwa1yoi"}}
+{"time":"2024-10-01T10:27:48.022078479+02:00","level":"INFO","msg":"stream: closed","id":"ogwa1yoi"}

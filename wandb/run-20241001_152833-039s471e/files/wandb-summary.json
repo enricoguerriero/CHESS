@@ -1,0 +1,1 @@
+{"epsilon_decay":0.999,"_step":50000,"gamma":0.95,"_wandb":{"runtime":226},"load":false,"epsilon":0.009998671593271896,"num_episodes":50000,"_runtime":220.826786761,"total_reward":1,"epsilon_min":0.01,"_timestamp":1.7277895340123253e+09}

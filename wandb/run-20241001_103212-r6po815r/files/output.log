@@ -1,0 +1,17 @@
+Training Progress: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:58<00:00, 17.23it/s]
+Episode 100/1000 completed.
+Episode 200/1000 completed.
+Episode 300/1000 completed.
+Episode 400/1000 completed.
+Episode 500/1000 completed.
+Episode 600/1000 completed.
+Episode 700/1000 completed.
+Episode 800/1000 completed.
+Episode 900/1000 completed.
+Episode 1000/1000 completed.
+Training completed.
+Evaluating Agent: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 557.75it/s]
+Out of 100 games:
+Wins: 0
+Losses: 0
+Draws: 100

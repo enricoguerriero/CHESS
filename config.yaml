@@ -8,12 +8,12 @@ data:
   data_path: "data/data_01_15.pgn"
 
 pretraining:
-  enabled: False
+  enabled: True
   batch_size: 256
-  epochs: 3
+  epochs: 2
   learning_rate: 0.001
 
 training:
   enabled: True
-  episodes: 100
+  episodes: 1000
   batch_size: 32

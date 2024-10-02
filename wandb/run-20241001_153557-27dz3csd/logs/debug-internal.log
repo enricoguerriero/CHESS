@@ -1,0 +1,18 @@
+{"time":"2024-10-01T15:35:57.321441715+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T15:35:57.321476986+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_153557-27dz3csd/logs/debug-core.log"}
+{"time":"2024-10-01T15:35:57.326484276+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T15:35:57.33237788+02:00","level":"INFO","msg":"created new stream","id":"27dz3csd"}
+{"time":"2024-10-01T15:35:57.332420484+02:00","level":"INFO","msg":"stream: started","id":"27dz3csd"}
+{"time":"2024-10-01T15:35:57.332466092+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"27dz3csd"}}
+{"time":"2024-10-01T15:35:57.332481039+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"27dz3csd"}}
+{"time":"2024-10-01T15:35:57.332451006+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"27dz3csd"}}
+{"time":"2024-10-01T15:35:57.787256554+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T15:35:57.787982368+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T15:43:49.384747363+02:00","level":"INFO","msg":"stream: closing","id":"27dz3csd"}
+{"time":"2024-10-01T15:43:49.384759724+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T15:43:49.386017328+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T15:43:51.783846889+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T15:43:52.294560667+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"27dz3csd"}}
+{"time":"2024-10-01T15:43:52.294618422+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"27dz3csd"}}
+{"time":"2024-10-01T15:43:52.294635042+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"27dz3csd"}}
+{"time":"2024-10-01T15:43:52.294733581+02:00","level":"INFO","msg":"stream: closed","id":"27dz3csd"}

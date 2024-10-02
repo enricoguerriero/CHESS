@@ -1,0 +1,18 @@
+{"time":"2024-10-01T15:44:28.320551766+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T15:44:28.320585637+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_154428-wzcpzycf/logs/debug-core.log"}
+{"time":"2024-10-01T15:44:28.325983636+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T15:44:28.332493847+02:00","level":"INFO","msg":"created new stream","id":"wzcpzycf"}
+{"time":"2024-10-01T15:44:28.332532397+02:00","level":"INFO","msg":"stream: started","id":"wzcpzycf"}
+{"time":"2024-10-01T15:44:28.332582679+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"wzcpzycf"}}
+{"time":"2024-10-01T15:44:28.332574159+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"wzcpzycf"}}
+{"time":"2024-10-01T15:44:28.332558237+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"wzcpzycf"}}
+{"time":"2024-10-01T15:44:28.695811033+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T15:44:28.696877364+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T15:50:42.875562261+02:00","level":"INFO","msg":"stream: closing","id":"wzcpzycf"}
+{"time":"2024-10-01T15:50:42.875712975+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T15:50:42.87718191+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T15:50:51.104138157+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T15:50:51.314761449+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"wzcpzycf"}}
+{"time":"2024-10-01T15:50:51.314827308+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"wzcpzycf"}}
+{"time":"2024-10-01T15:50:51.314849168+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"wzcpzycf"}}
+{"time":"2024-10-01T15:50:51.314923198+02:00","level":"INFO","msg":"stream: closed","id":"wzcpzycf"}

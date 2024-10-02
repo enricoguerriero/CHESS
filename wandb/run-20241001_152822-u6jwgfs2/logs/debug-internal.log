@@ -1,0 +1,18 @@
+{"time":"2024-10-01T15:28:22.199720715+02:00","level":"INFO","msg":"using version","core version":"0.18.2"}
+{"time":"2024-10-01T15:28:22.199769256+02:00","level":"INFO","msg":"created symlink","path":"/home/enrico/UiS/DNN/CHESS/wandb/run-20241001_152822-u6jwgfs2/logs/debug-core.log"}
+{"time":"2024-10-01T15:28:22.205617086+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-01T15:28:22.210535304+02:00","level":"INFO","msg":"created new stream","id":"u6jwgfs2"}
+{"time":"2024-10-01T15:28:22.210567711+02:00","level":"INFO","msg":"stream: started","id":"u6jwgfs2"}
+{"time":"2024-10-01T15:28:22.210594811+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"u6jwgfs2"}}
+{"time":"2024-10-01T15:28:22.210613878+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"u6jwgfs2"}}
+{"time":"2024-10-01T15:28:22.21062631+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"u6jwgfs2"}}
+{"time":"2024-10-01T15:28:22.559623573+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-01T15:28:22.560563453+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-01T15:28:23.154668754+02:00","level":"INFO","msg":"stream: closing","id":"u6jwgfs2"}
+{"time":"2024-10-01T15:28:23.154706748+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-01T15:28:23.154797335+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-01T15:28:23.927461575+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-01T15:28:24.149430776+02:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"u6jwgfs2"}}
+{"time":"2024-10-01T15:28:24.149504531+02:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"u6jwgfs2"}}
+{"time":"2024-10-01T15:28:24.1494914+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"u6jwgfs2"}}
+{"time":"2024-10-01T15:28:24.149629969+02:00","level":"INFO","msg":"stream: closed","id":"u6jwgfs2"}

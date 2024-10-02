@@ -1,0 +1,25 @@
+Training Progress: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [01:08<00:00, 14.58it/s]
+Episode 100/1000 completed.
+Episode 200/1000 completed.
+Episode 300/1000 completed.
+Episode 400/1000 completed.
+Episode 500/1000 completed.
+Episode 600/1000 completed.
+Episode 700/1000 completed.
+Episode 800/1000 completed.
+Episode 900/1000 completed.
+Episode 1000/1000 completed.
+Training completed.
+Traceback (most recent call last):
+  File "/home/enrico/UiS/DNN/CHESS/tic_tac_toe.py", line 318, in <module>
+    torch.save(net.state_dict(), '/models/tictactoe_net.pth')
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/torch/serialization.py", line 651, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/torch/serialization.py", line 525, in _open_zipfile_writer
+    return container(name_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/torch/serialization.py", line 496, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(self.name))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Parent directory /models does not exist.

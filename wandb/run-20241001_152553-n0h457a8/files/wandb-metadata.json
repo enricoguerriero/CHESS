@@ -1,0 +1,32 @@
+{
+  "os":  "Linux-6.8.0-45-generic-x86_64-with-glibc2.39",
+  "python":  "3.12.3",
+  "startedAt":  "2024-10-01T13:25:53.352238Z",
+  "program":  "/home/enrico/UiS/DNN/CHESS/tictactoe/DQN_ttt_sp.py",
+  "codePath":  "tictactoe/DQN_ttt_sp.py",
+  "git":  {
+    "remote":  "https://github.com/enricoguerriero/CHESS.git",
+    "commit":  "c64daeed8590a328ed660ba0f3d38c1305ae8a82"
+  },
+  "email":  "enrico.guerriero@studenti.unitn.it",
+  "root":  "/home/enrico/UiS/DNN/CHESS",
+  "host":  "antonello",
+  "username":  "enrico",
+  "executable":  "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/bin/python",
+  "codePathLocal":  "tictactoe/DQN_ttt_sp.py",
+  "cpu_count":  8,
+  "cpu_count_logical":  16,
+  "disk":  {
+    "/":  {
+      "total":  "501809635328",
+      "used":  "87149309952"
+    }
+  },
+  "memory":  {
+    "total":  "7636664320"
+  },
+  "cpu":  {
+    "count":  8,
+    "countLogical":  16
+  }
+}
