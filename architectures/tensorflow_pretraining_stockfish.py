@@ -20,7 +20,7 @@ def random_board(max_depth=200):
     return board
 
 def stockfish(board, depth=0):
-    with chess.engine.SimpleEngine.popen_uci("./stockfish/stockfish-ubuntu-x86-64-avx2") as sf:
+    with chess.engine.SimpleEngine.popen_uci("./stockfish-ubuntu-x86-64-avx2") as sf:
         result = sf.analyse(board, chess.engine.Limit(depth=depth))
         score = result["score"].white().score()
         return score
