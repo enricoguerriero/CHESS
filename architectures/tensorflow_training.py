@@ -34,7 +34,7 @@ MAX_GAME_LENGTH = 200     # Maximum number of moves per game
 STOCKFISH_PATH = "./stockfish/stockfish-ubuntu-x86-64-avx2"
 
 # Load the pre-trained model or create a new one
-pretrained_model_path = './models/model_01_15.h5'
+pretrained_model_path = './models/model_01_15_2.h5'
 if os.path.exists(pretrained_model_path):
     with tf.device('/GPU:0'):
         pretrained_model = load_model(pretrained_model_path, compile=False)
