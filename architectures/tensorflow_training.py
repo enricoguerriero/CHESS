@@ -33,15 +33,24 @@ MAX_GAME_LENGTH = 200     # Maximum number of moves per game
 # Path to Stockfish (if used)
 STOCKFISH_PATH = "./stockfish/stockfish-ubuntu-x86-64-avx2"
 
-# Load the pre-trained model
+# Load the pre-trained model or create a new one
 pretrained_model_path = './models/model_01_15.h5'
 if os.path.exists(pretrained_model_path):
     with tf.device('/GPU:0'):
-        pretrained_model = load_model(pretrained_model_path)
+        pretrained_model = load_model(pretrained_model_path, compile=False)
     print("Pre-trained model loaded successfully.")
     pretrained_model.summary()
 else:
-    raise FileNotFoundError(f"Pre-trained model not found at {pretrained_model_path}")
+    print("Pre-trained model not found. Creating a new model.")
+    input_layer = layers.Input(shape=(14, 8, 8))
+    x = layers.Conv2D(32, (3, 3), padding='same', activation='relu')(input_layer)
+    x = layers.Flatten()(x)
+    x = layers.Dense(64, activation='relu')(x)
+    output_layer = layers.Dense(ACTION_SPACE_SIZE, activation='softmax')(x)
+    pretrained_model = Model(inputs=input_layer, outputs=output_layer)
+    pretrained_model.compile(optimizer=optimizers.Adam(learning_rate=1e-4), loss='categorical_crossentropy')
+    print("New model created successfully.")
+    pretrained_model.summary()
 
 # Step 1: Create Action Mapping
 def create_action_mapping():
@@ -113,7 +122,7 @@ def select_move(model, board):
     state = split_dims(board)  # Shape: (14, 8, 8)
     state_for_prediction = tf.expand_dims(state, axis=0)  # Shape: (1, 14, 8, 8)
     with tf.device('/GPU:0'):
-        policy_pred = model.predict(state_for_prediction, verbose=0)
+        policy_pred = model(state_for_prediction, training=False).numpy()
     policy_pred = policy_pred[0]  # Shape: (ACTION_SPACE_SIZE,)
     masked_policy = mask_illegal_moves(policy_pred, board)
     move_index = np.random.choice(range(ACTION_SPACE_SIZE), p=masked_policy)
@@ -141,7 +150,7 @@ def self_play(model, num_games):
         game_memory = []
         while not board.is_game_over() and board.fullmove_number <= MAX_GAME_LENGTH:
             state = split_dims(board)  # Shape: (14, 8, 8)
-            policy_pred = model.predict(tf.expand_dims(state, axis=0), verbose=0)[0]
+            policy_pred = model(tf.expand_dims(state, axis=0), training=False).numpy()[0]
             # Select move based on policy
             masked_policy = mask_illegal_moves(policy_pred, board)
             move_index = np.random.choice(range(ACTION_SPACE_SIZE), p=masked_policy)
