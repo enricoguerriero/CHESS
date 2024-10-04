@@ -118,7 +118,7 @@ import tensorflow.keras.callbacks as callbacks
 from tqdm import tqdm
 
 def get_dataset():
-    num_samples = 10000
+    num_samples = 100000
     boards = []
     values = []
     for _ in tqdm(range(num_samples)):
