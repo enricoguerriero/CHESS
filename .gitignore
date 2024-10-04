@@ -1,6 +1,5 @@
 FinalProjectVenv/*
 __psycache__/*
-models/*
 data/*
 architectures/__psycache__
 tictactoe/Q-learning-Tic-Tac-Toe
