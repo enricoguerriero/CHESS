@@ -1,3 +1,4 @@
+import os
 import chess
 import random
 import numpy as np
@@ -5,11 +6,25 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model, Model
 from tensorflow.keras import layers, optimizers
 from collections import deque
-import os
+
+# Set CUDA visible devices
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 # Ensure reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
+
+# Set TensorFlow to use GPU if available
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        # Set memory growth to avoid OOM errors
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        tf.config.set_visible_devices(gpus, 'GPU')
+        print(f"Using GPU: {gpus}")
+    except RuntimeError as e:
+        print(e)
 
 # Define global variables
 ACTION_SPACE_SIZE = 4672  # Placeholder; will be updated based on action mapping
@@ -124,7 +139,8 @@ class ReplayBuffer:
         self.buffer.append((state, policy, value))
     
     def sample(self, batch_size):
-        batch = random.sample(self.buffer, batch_size)
+        indices = np.random.choice(len(self.buffer), batch_size, replace=False)
+        batch = [self.buffer[idx] for idx in indices]
         state_batch, policy_batch, value_batch = map(np.array, zip(*batch))
         return state_batch, policy_batch, value_batch
     
@@ -151,15 +167,15 @@ class Memory:
 # Step 6: Implement Masking of Illegal Moves
 def mask_illegal_moves(policy_output, board):
     legal_moves = list(board.legal_moves)
-    legal_indices = [move_to_index[move.uci()] for move in legal_moves if move.uci() in move_to_index]
     mask = np.zeros(ACTION_SPACE_SIZE)
-    mask[legal_indices] = 1
+    for move in legal_moves:
+        if move.uci() in move_to_index:
+            mask[move_to_index[move.uci()]] = 1
     masked_policy = policy_output * mask
-    # Re-normalize
-    if np.sum(masked_policy) > 0:
-        masked_policy /= np.sum(masked_policy)
+    masked_policy_sum = np.sum(masked_policy)
+    if masked_policy_sum > 0:
+        masked_policy /= masked_policy_sum
     else:
-        # If no legal moves, assign uniform probability (shouldn't happen)
         masked_policy = mask / np.sum(mask)
     return masked_policy
 
@@ -193,22 +209,31 @@ def self_play(model, num_games):
     for game_num in range(1, num_games + 1):
         board = chess.Board()
         game_memory = []
+        state_list = []
         while not board.is_game_over() and board.fullmove_number <= MAX_GAME_LENGTH:
             state = split_dims(board)  # Shape: (14, 8, 8)
-            policy_pred, value_pred = model.predict(np.expand_dims(state, axis=0), verbose=0)
-            policy_pred = policy_pred[0]  # Shape: (ACTION_SPACE_SIZE,)
-            # Select move based on policy
-            masked_policy = mask_illegal_moves(policy_pred, board)
-            move_index = np.random.choice(range(ACTION_SPACE_SIZE), p=masked_policy)
-            move = index_to_move.get(move_index, None)
-            if move is None or move not in board.legal_moves:
-                # Fallback to random legal move if selected move is illegal
-                move = random.choice(list(board.legal_moves))
-            board.push(move)
-            game_memory.append((state, policy_pred, value_pred))
+            state_list.append(state)
+
+            # Batch prediction
+            if len(state_list) >= 32 or board.is_game_over():
+                state_batch = np.array(state_list)
+                policy_preds, value_preds = model.predict(state_batch, verbose=0)
+                for i in range(len(state_batch)):
+                    state = state_batch[i]
+                    policy_pred = policy_preds[i]  # Shape: (ACTION_SPACE_SIZE,)
+                    value_pred = value_preds[i]
+                    # Select move based on policy
+                    masked_policy = mask_illegal_moves(policy_pred, board)
+                    move_index = np.random.choice(range(ACTION_SPACE_SIZE), p=masked_policy)
+                    move = index_to_move.get(move_index, None)
+                    if move is None or move not in board.legal_moves:
+                        move = random.choice(list(board.legal_moves))
+                    board.push(move)
+                    game_memory.append((state, policy_pred, value_pred))
+                state_list = []
+
         # Get the game result
         reward = get_reward(board)
-        # Assign rewards to all moves in the game
         for state, policy, value in game_memory:
             memory.store(state, policy, reward)
         print(f"Completed self-play game {game_num}/{num_games} with reward {reward}.")
@@ -233,7 +258,7 @@ def train_rl_model(model, num_iterations, games_per_iteration, batch_size):
         model.fit(state_batch, {'policy_output': policy_batch, 'value_output': value_batch},
                   batch_size=batch_size, epochs=1, verbose=1)
         # Save the model periodically
-        model_save_path = f'./models/model_rl_iteration_{iteration}.weights.h5'
+        model_save_path = f'./models/checkpoints/model_rl_iteration_{iteration}.weights.h5'
         model.save_weights(model_save_path)
         print(f"Saved model weights to {model_save_path}.")
     print("RL Training completed.")
