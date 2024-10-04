@@ -34,7 +34,7 @@ MAX_GAME_LENGTH = 200     # Maximum number of moves per game
 STOCKFISH_PATH = "./stockfish/stockfish-ubuntu-x86-64-avx2"
 
 # Load the pre-trained model or create a new one
-pretrained_model_path = './models/model_01_15_2.h5'
+pretrained_model_path = './models/model_01_15.h5'
 if os.path.exists(pretrained_model_path):
     with tf.device('/GPU:0'):
         pretrained_model = load_model(pretrained_model_path, compile=False)
@@ -105,7 +105,7 @@ def split_dims(board):
 # Step 3: Implement Masking of Illegal Moves
 def mask_illegal_moves(policy_output, board):
     legal_moves = list(board.legal_moves)
-    mask = np.zeros(ACTION_SPACE_SIZE)
+    mask = np.zeros(policy_output.shape)
     for move in legal_moves:
         if move.uci() in move_to_index:
             mask[move_to_index[move.uci()]] = 1
@@ -153,7 +153,7 @@ def self_play(model, num_games):
             policy_pred = model(tf.expand_dims(state, axis=0), training=False).numpy()[0]
             # Select move based on policy
             masked_policy = mask_illegal_moves(policy_pred, board)
-            move_index = np.random.choice(range(ACTION_SPACE_SIZE), p=masked_policy)
+            move_index = np.random.choice(range(len(masked_policy)), p=masked_policy)
             move = index_to_move.get(move_index, None)
             if move is None or move not in board.legal_moves:
                 # Fallback to random legal move if selected move is illegal
