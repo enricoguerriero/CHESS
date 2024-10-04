@@ -2,12 +2,13 @@ import chess
 import chess.engine
 import random
 import numpy as np
+import tensorflow as tf
 
 # Ensure reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
 
-def random_board(max_depth = 200):
+def random_board(max_depth=200):
     board = chess.Board()
     depth = random.randrange(0, max_depth)
     
@@ -18,21 +19,21 @@ def random_board(max_depth = 200):
             break
     return board
 
-def stockfish(board, depth = 0):
+def stockfish(board, depth=0):
     with chess.engine.SimpleEngine.popen_uci("./stockfish/stockfish-ubuntu-x86-64-avx2") as sf:
-        result = sf.analyse(board, chess.engine.Limit(depth = depth))
+        result = sf.analyse(board, chess.engine.Limit(depth=depth))
         score = result["score"].white().score()
         return score
-    
+
 square_index = {
-    'a' : 0,
-    'b' : 1,
-    'c' : 2,
-    'd' : 3,
-    'e' : 4,
-    'f' : 5,
-    'g' : 6,
-    'h' : 7
+    'a': 0,
+    'b': 1,
+    'c': 2,
+    'd': 3,
+    'e': 4,
+    'f': 5,
+    'g': 6,
+    'h': 7
 }
 
 def square_to_index(square):
@@ -40,69 +41,84 @@ def square_to_index(square):
     return 8 - int(letter[1]), square_index[letter[0]]
 
 def split_dims(board):
-    board3d = np.zeros((14, 8, 8), np.int8)
+    # Use TensorFlow tensors instead of NumPy arrays
+    board3d = tf.zeros((14, 8, 8), dtype=tf.int8)
     
     for piece in chess.PIECE_TYPES:
-        for square in board.pieces(piece, chess.WHITE):
-            idx = np.unravel_index(square, (8, 8))
-            board3d[piece - 1][7 - idx[0]][idx[1]] = 1
-        for square in board.pieces(piece, chess.BLACK):
-            idx = np.unravel_index(square, (8, 8))
-            board3d[piece + 5][7 - idx[0]][idx[1]] = 1
+        # White pieces
+        squares = board.pieces(piece, chess.WHITE)
+        for square in squares:
+            idx = divmod(square, 8)
+            idx = (7 - idx[0], idx[1])
+            indices = tf.constant([[piece - 1, idx[0], idx[1]]])
+            updates = tf.constant([1], dtype=tf.int8)
+            board3d = tf.tensor_scatter_nd_update(board3d, indices, updates)
+        # Black pieces
+        squares = board.pieces(piece, chess.BLACK)
+        for square in squares:
+            idx = divmod(square, 8)
+            idx = (7 - idx[0], idx[1])
+            indices = tf.constant([[piece + 5, idx[0], idx[1]]])
+            updates = tf.constant([1], dtype=tf.int8)
+            board3d = tf.tensor_scatter_nd_update(board3d, indices, updates)
     
+    # Legal moves
     aux = board.turn 
     board.turn = chess.WHITE
     for move in board.legal_moves:
         i, j = square_to_index(move.to_square)
-        board3d[13][i][j] = 1
+        indices = tf.constant([[13, i, j]])
+        updates = tf.constant([1], dtype=tf.int8)
+        board3d = tf.tensor_scatter_nd_update(board3d, indices, updates)
     board.turn = aux
     
     return board3d
 
 import tensorflow.keras.models as models
 import tensorflow.keras.layers as layers
-import tensorflow.keras.utils as utils
 import tensorflow.keras.optimizers as optimizers
 
 def build_model(conv_size, conv_depth):
-    board3d = layers.Input(shape = (14, 8, 8))
+    board3d = layers.Input(shape=(14, 8, 8))
     
     x = board3d
     for _ in range(conv_depth):
-        x = layers.Conv2D(filters = conv_size, kernel_size = 3,
-                          padding = 'same', activation = 'relu')(x)
+        x = layers.Conv2D(filters=conv_size, kernel_size=3,
+                          padding='same', activation='relu')(x)
     x = layers.Flatten()(x)
-    x = layers.Dense(64, activation = 'relu')(x)
-    x = layers.Dense(1, activation = 'sigmoid')(x)
+    x = layers.Dense(64, activation='relu')(x)
+    x = layers.Dense(1, activation='sigmoid')(x)
     
-    return models.Model(inputs = board3d, outputs = x)
+    return models.Model(inputs=board3d, outputs=x)
 
 def build_model_residual(conv_size, conv_depth):
-    board3d = layers.Input(shape = (14, 8, 8))
+    board3d = layers.Input(shape=(14, 8, 8))
     
-    x = layers.Conv2D(filters = conv_size, kernel_size = 3,
-                      padding = 'same', activation = 'relu')(board3d)
+    x = layers.Conv2D(filters=conv_size, kernel_size=3,
+                      padding='same')(board3d)
+    x = layers.BatchNormalization()(x)
+    x = layers.Activation('relu')(x)
     for _ in range(conv_depth):
         previous = x
-        x = layers.Conv2D(filters = conv_size, kernel_size = 3,
-                          padding = 'same', activation = 'relu')(x)
+        x = layers.Conv2D(filters=conv_size, kernel_size=3,
+                          padding='same')(x)
         x = layers.BatchNormalization()(x)
         x = layers.Activation('relu')(x)
-        x = layers.Conv2D(filters = conv_size, kernel_size = 3,
-                          padding = 'same', activation = 'relu')(x)
+        x = layers.Conv2D(filters=conv_size, kernel_size=3,
+                          padding='same')(x)
         x = layers.BatchNormalization()(x)
         x = layers.Add()([x, previous])
         x = layers.Activation('relu')(x)
     x = layers.Flatten()(x)
-    x = layers.Dense(1, activation = 'sigmoid')(x)
+    x = layers.Dense(1, activation='sigmoid')(x)
     
-    return models.Model(inputs = board3d, outputs = x)
+    return models.Model(inputs=board3d, outputs=x)
 
 import tensorflow.keras.callbacks as callbacks
 from tqdm import tqdm
 
 def get_dataset():
-    num_samples = 10000
+    num_samples = 100000
     boards = []
     values = []
     for _ in tqdm(range(num_samples)):
@@ -114,14 +130,18 @@ def get_dataset():
         prob = 1 / (1 + 10 ** (-value / 400))
         boards.append(split_dims(board))
         values.append(prob)
-    b = np.array(boards)
-    v = np.array(values)
+    # Convert lists to tensors and place them on the GPU
+    with tf.device('/GPU:0'):
+        b = tf.stack(boards)
+        v = tf.stack(values)
     return b, v
 
 def minmax_eval(board):
     board3d = split_dims(board)
-    board3d = np.expand_dims(board3d, axis = 0)
-    return model.predict(board3d)[0][0]
+    board3d = tf.expand_dims(board3d, axis=0)
+    # Ensure prediction is done on GPU
+    with tf.device('/GPU:0'):
+        return model.predict(board3d)[0][0]
 
 def minimax(board, depth, alpha, beta, maximizing_player):
     if depth == 0 or board.is_game_over():
@@ -148,8 +168,8 @@ def minimax(board, depth, alpha, beta, maximizing_player):
             if beta <= alpha:
                 break
         return min_eval
-    
-def get_ai_move(board, depth = 3):
+
+def get_ai_move(board, depth=3):
     best_move = None
     max_eval = -np.inf
     for move in board.legal_moves:
@@ -168,23 +188,28 @@ if __name__ == '__main__':
     
     model_path = './models/model_01_15.h5'
     
-    model = build_model_residual(32, 4)
     try:
-        model = models.load_model(model_path)
+        # Load the model before building a new one
+        with tf.device('/GPU:0'):
+            model = models.load_model(model_path)
         print("Model loaded successfully.")
     except (OSError, IOError):
-        print("Saved model not found. Using a new model.")
-
-    model.compile(optimizer = optimizers.Adam(5e-4), loss = 'mean_squared_error')
-    model.summary()
-    model.fit(x_train, y_train, 
-            batch_size = 2048, 
-            verbose = 1,
-            epochs = 100, 
-            validation_split = 0.1,
-            callbacks = [callbacks.ReduceLROnPlateau(monitor = 'loss', patience = 10),
-                        callbacks.EarlyStopping(monitor = 'loss', patience = 15, min_delta = 1e-4)])
-
+        print("Saved model not found. Building a new model.")
+        with tf.device('/GPU:0'):
+            model = build_model_residual(32, 4)
+        model.compile(optimizer=optimizers.Adam(5e-4), loss='mean_squared_error')
+        model.summary()
+    
+    # Ensure training happens on GPU
+    with tf.device('/GPU:0'):
+        model.fit(x_train, y_train, 
+                  batch_size=2048, 
+                  verbose=1,
+                  epochs=100, 
+                  validation_split=0.1,
+                  callbacks=[callbacks.ReduceLROnPlateau(monitor='loss', patience=10),
+                             callbacks.EarlyStopping(monitor='loss', patience=15, min_delta=1e-4)])
+    
     model.save(model_path)
     
     board = chess.Board()
@@ -197,7 +222,7 @@ if __name__ == '__main__':
             if board.is_game_over():
                 break
             
-            move = engine.analyse(board, chess.engine.Limit(time = 1))['pv'][0]
+            move = engine.analyse(board, chess.engine.Limit(time=1))['pv'][0]
             board.push(move)
             print(f'\n{board}')
             if board.is_game_over():
