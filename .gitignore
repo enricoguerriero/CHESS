@@ -3,3 +3,4 @@ __psycache__/*
 data/*
 architectures/__psycache__
 tictactoe/Q-learning-Tic-Tac-Toe
+models/checkpoints/*
