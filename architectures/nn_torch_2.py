@@ -1,3 +1,6 @@
+# run like this: python3 architectures/nn_torch_2.py --model-path './models/chess_nn_2.pth'
+
+
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
@@ -15,6 +18,7 @@ from tqdm import trange
 
 # Set up device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='DQN Chess Agent Training')
