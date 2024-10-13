@@ -1,0 +1,32 @@
+{
+  "os":  "Linux-6.8.0-45-generic-x86_64-with-glibc2.39",
+  "python":  "3.12.3",
+  "startedAt":  "2024-10-07T16:53:04.383114Z",
+  "program":  "/home/enrico/UiS/DNN/CHESS/architectures/nn_torch_2.py",
+  "codePath":  "architectures/nn_torch_2.py",
+  "git":  {
+    "remote":  "https://github.com/enricoguerriero/CHESS.git",
+    "commit":  "cdd147de4d91ef5c537eaac61f0d19e5ca11a4dc"
+  },
+  "email":  "enrico.guerriero@studenti.unitn.it",
+  "root":  "/home/enrico/UiS/DNN/CHESS",
+  "host":  "antonello",
+  "username":  "enrico",
+  "executable":  "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/bin/python3",
+  "codePathLocal":  "architectures/nn_torch_2.py",
+  "cpu_count":  8,
+  "cpu_count_logical":  16,
+  "disk":  {
+    "/":  {
+      "total":  "501809635328",
+      "used":  "92897718272"
+    }
+  },
+  "memory":  {
+    "total":  "7636656128"
+  },
+  "cpu":  {
+    "count":  8,
+    "countLogical":  16
+  }
+}

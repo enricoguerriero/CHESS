@@ -4,16 +4,32 @@ model:
   load: False # False or the name of the model
   save: True # for overwriting
 
-data:
-  data_path: "data/data_01_15.pgn"
+alpha1:
+  enabled: False
 
-pretraining:
-  enabled: True
-  batch_size: 256
-  epochs: 2
-  learning_rate: 0.001
+alpha2: 
+  enabled: False
 
-training:
+alpha3: 
+  enabled: False
+
+alpha4:
+  enabled: False
+  pretraining:
+    doit: True
+    batch_size: 1024
+    epochs: 2
+    learning_rate: 0.001
+    data_path: "data/data_01_15.pgn"
+  training: 
+    doit: True
+    batch_size: 32
+    episodes: 1000
+
+alpha5: 
+  enabled: False
+
+alpha6: 
   enabled: True
-  episodes: 1000
-  batch_size: 32
+
+

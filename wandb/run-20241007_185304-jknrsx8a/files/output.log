@@ -1,0 +1,16 @@
+No existing model found. Starting training from scratch.
+Training:   0%|                                                                                                                                               | 0/15000 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/enrico/UiS/DNN/CHESS/architectures/nn_torch_2.py", line 278, in <module>
+    loss.backward()
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/torch/_tensor.py", line 521, in backward
+    torch.autograd.backward(
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 289, in backward
+    _engine_run_backward(
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/torch/autograd/graph.py", line 769, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/enrico/UiS/DNN/CHESS/FinalProjectVenv/lib/python3.12/site-packages/wandb/integration/torch/wandb_torch.py", line 276, in <lambda>
+    handle = var.register_hook(lambda grad: _callback(grad, log_track))
+
+KeyboardInterrupt

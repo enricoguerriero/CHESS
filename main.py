@@ -1,8 +1,9 @@
 import yaml
 import wandb
 from utils import load_config
-from architectures.nn_torch_1 import DQNAgent
-
+from architectures.alpha4 import self_play, pretrain_model
+from architectures.alpha5 import DQNAgent
+from architectures.alpha6 import ChessEnv, ChessAgent
 
 if __name__ == '__main__':
 
