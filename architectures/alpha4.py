@@ -33,21 +33,22 @@ STOCKFISH_PATH = "./stockfish/stockfish-ubuntu-x86-64-avx2"
 MODEL_PATH = './models/model_01_15.h5'
 
 # Load the pre-trained model or create a new one
-try:
-    with tf.device('/GPU:0'):
-        model = models.load_model(MODEL_PATH)
-    print("Pre-trained model loaded successfully.")
-    model.summary()
-except (OSError, IOError):
-    print("Saved model not found. Building a new model.")
-    input_layer = layers.Input(shape=(14, 8, 8))
-    x = layers.Conv2D(32, (3, 3), padding='same', activation='relu')(input_layer)
-    x = layers.Flatten()(x)
-    x = layers.Dense(64, activation='relu')(x)
-    output_layer = layers.Dense(ACTION_SPACE_SIZE, activation='softmax')(x)
-    model = models.Model(inputs=input_layer, outputs=output_layer)
-    model.compile(optimizer=optimizers.Adam(learning_rate=1e-4), loss='categorical_crossentropy')
-    model.summary()
+if __name__ == '__main__':
+    try:
+        with tf.device('/GPU:0'):
+            model = models.load_model(MODEL_PATH)
+        print("Pre-trained model loaded successfully.")
+        model.summary()
+    except (OSError, IOError):
+        print("Saved model not found. Building a new model.")
+        input_layer = layers.Input(shape=(14, 8, 8))
+        x = layers.Conv2D(32, (3, 3), padding='same', activation='relu')(input_layer)
+        x = layers.Flatten()(x)
+        x = layers.Dense(64, activation='relu')(x)
+        output_layer = layers.Dense(ACTION_SPACE_SIZE, activation='softmax')(x)
+        model = models.Model(inputs=input_layer, outputs=output_layer)
+        model.compile(optimizer=optimizers.Adam(learning_rate=1e-4), loss='categorical_crossentropy')
+        model.summary()
 
 # Create Action Mapping
 def create_action_mapping():
@@ -173,13 +174,12 @@ def stockfish(board, depth=0):
         score = result["score"].white().score()
         return score
 
-def get_dataset():
-    num_samples = 100000
+def get_dataset(num_samples=100000, max_depth=200, stockfish_depth=1):
     boards = []
     values = []
     for _ in tqdm(range(num_samples)):
-        board = random_board(max_depth=200)
-        value = stockfish(board, depth=1)
+        board = random_board(max_depth=max_depth)
+        value = stockfish(board, depth=stockfish_depth)
         if value is None:
             continue
         prob = 1 / (1 + 10 ** (-value / 400))
@@ -190,32 +190,36 @@ def get_dataset():
         v = tf.stack(values)
     return b, v
 
-# Training the Model with Pretraining Data
-if __name__ == '__main__':
-    # Pretraining
-    x_train, y_train = get_dataset()
+# Pretraining Function
+def pretrain_model(model_path=MODEL_PATH, num_samples=100000, max_depth=200, stockfish_depth=1, batch_size=2048, epochs=100, validation_split=0.1, learning_rate=5e-4):
+    x_train, y_train = get_dataset(num_samples=num_samples, max_depth=max_depth, stockfish_depth=stockfish_depth)
     print(x_train.shape, y_train.shape)
 
     try:
         with tf.device('/GPU:0'):
-            model = models.load_model(MODEL_PATH)
+            model = models.load_model(model_path)
         print("Model loaded successfully.")
     except (OSError, IOError):
         print("Saved model not found. Building a new model.")
         with tf.device('/GPU:0'):
             model = models.Model(inputs=layers.Input(shape=(14, 8, 8)), outputs=layers.Dense(1, activation='sigmoid'))
-        model.compile(optimizer=optimizers.Adam(5e-4), loss='mean_squared_error')
+        model.compile(optimizer=optimizers.Adam(learning_rate=learning_rate), loss='mean_squared_error')
         model.summary()
 
     with tf.device('/GPU:0'):
         model.fit(x_train, y_train, 
-                  batch_size=2048, 
+                  batch_size=batch_size, 
                   verbose=1,
-                  epochs=100, 
-                  validation_split=0.1,
+                  epochs=epochs, 
+                  validation_split=validation_split,
                   callbacks=[callbacks.ReduceLROnPlateau(monitor='loss', patience=10),
                              callbacks.EarlyStopping(monitor='loss', patience=15, min_delta=1e-4)])
-    model.save(MODEL_PATH)
+    model.save(model_path)
+
+# Training the Model with Pretraining Data
+if __name__ == '__main__':
+    # Pretraining
+    pretrain_model()
 
     # Self-play Training
     NUM_GAMES = 10

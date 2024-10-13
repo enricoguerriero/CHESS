@@ -14,22 +14,22 @@ alpha3:
   enabled: False
 
 alpha4:
-  enabled: False
+  enabled: True
   pretraining:
     doit: True
-    batch_size: 1024
+    batch_size: 516
     epochs: 2
     learning_rate: 0.001
     data_path: "data/data_01_15.pgn"
   training: 
     doit: True
-    batch_size: 32
+    batch_size: 64
     episodes: 1000
 
 alpha5: 
   enabled: False
 
 alpha6: 
-  enabled: True
+  enabled: False
 
 

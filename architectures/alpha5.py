@@ -16,12 +16,12 @@ from torch.utils import data
 class DQN(nn.Module):
     def __init__(self, action_size):
         super(DQN, self).__init__()
-        self.fc1 = nn.Linear(8 * 8 * 12, 256)
+        self.fc1 = nn.Linear(8 * 8 * 17, 256)
         self.fc2 = nn.Linear(256, 128)
         self.fc3 = nn.Linear(128, action_size)
 
     def forward(self, x):
-        x = x.view(-1, 8 * 8 * 12)  # Flatten the input
+        x = x.view(-1, 8 * 8 * 17)  # Flatten the input
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
@@ -29,7 +29,8 @@ class DQN(nn.Module):
 
 class DQNAgent:
     def __init__(self):
-        self.state_size = (12, 8, 8)  # 12 planes for piece types, 8x8 board
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.state_size = (17, 8, 8)  # 12 planes for piece types, 8x8 board
         self.move_indices, self.index_moves = self.create_action_mapping()
         self.action_size = len(self.move_indices)
         self.memory = deque(maxlen=2000)
@@ -38,7 +39,7 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
-        self.model = DQN(self.action_size)
+        self.model = DQN(self.action_size).to(self.device)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
         self.move_indices, self.index_moves = self.create_action_mapping()
 
@@ -57,16 +58,13 @@ class DQNAgent:
                         move = move_str + promotion
                     else:
                         move = move_str
-                    try:
-                        move_obj = chess.Move.from_uci(move)
-                        if chess.Move.from_uci(move).promotion and not promotion:
-                            continue  # Skip invalid promotions
-                        if move not in move_indices:
-                            move_indices[move] = idx
-                            index_moves[idx] = move
-                            idx += 1
-                    except:
-                        continue
+                    move_obj = chess.Move.from_uci(move)
+                    if move_obj.promotion and not promotion:
+                        continue  # Skip invalid promotions
+                    if move not in move_indices:
+                        move_indices[move] = idx
+                        index_moves[idx] = move
+                        idx += 1
         return move_indices, index_moves
 
     def remember(self, state, action, reward, next_state, done):
@@ -77,31 +75,30 @@ class DQNAgent:
         """Epsilon-greedy action selection with legal moves."""
         if np.random.rand() <= self.epsilon:
             return random.choice(legal_moves)
-        state = torch.tensor(state, dtype=torch.float).unsqueeze(0)
+        state = torch.tensor(state, dtype=torch.float).unsqueeze(0).to(self.device)
         self.model.eval()
         with torch.no_grad():
             act_values = self.model(state)
-        mask = np.full(self.action_size, -np.inf)
-        mask[legal_moves] = 0
-        act_values = act_values.numpy()[0] + mask
-        return np.argmax(act_values)
+        legal_act_values = act_values[0, legal_moves]
+        best_legal_action_idx = torch.argmax(legal_act_values).item()
+        return legal_moves[best_legal_action_idx]
 
     def replay(self, batch_size):
         """Trains the model using a batch of experiences."""
         minibatch = random.sample(self.memory, batch_size)
         for state, action, reward, next_state, done in minibatch:
             self.model.train()
-            state = torch.tensor(state, dtype=torch.float).unsqueeze(0)
+            state = torch.tensor(state, dtype=torch.float).unsqueeze(0).to(self.device)
             target = reward
             if not done:
-                next_state = torch.tensor(next_state, dtype=torch.float).unsqueeze(0)
+                next_state = torch.tensor(next_state, dtype=torch.float).unsqueeze(0).to(self.device)
                 target = reward + self.gamma * torch.max(self.model(next_state)).item()
             target_f = self.model(state)
             target_f = target_f.clone().detach()
             target_f[0][action] = target
             self.optimizer.zero_grad()
             outputs = self.model(state)
-            loss = F.mse_loss(outputs[0][action], torch.tensor(target, dtype=torch.float32))
+            loss = F.mse_loss(outputs[0][action], torch.tensor(target, dtype=torch.float32).to(self.device))
             loss.backward()
             self.optimizer.step()
         if self.epsilon > self.epsilon_min:
@@ -109,7 +106,7 @@ class DQNAgent:
 
     def board_to_state(self, board):
         """Converts the board to a state representation."""
-        state = np.zeros((12, 8, 8), dtype=np.float32)
+        state = np.zeros((17, 8, 8), dtype=np.float32)
         piece_map = board.piece_map()
         for position in piece_map:
             piece = piece_map[position]
@@ -117,6 +114,13 @@ class DQNAgent:
             row = position // 8
             col = position % 8
             state[plane][row][col] = 1.0
+                # Add player to move
+        state[12, :, :] = 1.0 if board.turn == chess.WHITE else 0.0
+        # Add castling rights
+        state[13, :, :] = 1.0 if board.has_kingside_castling_rights(chess.WHITE) else 0.0
+        state[14, :, :] = 1.0 if board.has_queenside_castling_rights(chess.WHITE) else 0.0
+        state[15, :, :] = 1.0 if board.has_kingside_castling_rights(chess.BLACK) else 0.0
+        state[16, :, :] = 1.0 if board.has_queenside_castling_rights(chess.BLACK) else 0.0
         return state
 
     def piece_to_plane(self, piece):
@@ -137,7 +141,12 @@ class DQNAgent:
             else:
                 return 0  # Draw
         else:
-            return 0  # Intermediate reward
+            # Reward for intermediate state (e.g., based on material count or mobility)
+            reward = 0
+            reward += len(list(board.legal_moves)) / 100  # Encourage more mobility
+            material_count = sum([piece.piece_type for piece in board.piece_map().values()])
+            reward += material_count / 1000  # Encourage material advantage
+            return reward
 
     def train(self, episodes=1000, batch_size=32, WandB=None, save_path = 'model.pth'):
         """Training loop for the agent."""
@@ -179,6 +188,16 @@ class DQNAgent:
                     "episode_time":episode_time
                 })
             start = time.time()
+            
+            # Save model every 50 episodes
+            if (e + 1) % 50 == 0:
+                checkpoint_dir = "checkpoints"
+                if not os.path.exists(checkpoint_dir):
+                    os.makedirs(checkpoint_dir)
+                checkpoint_path = os.path.join(checkpoint_dir, f"model_episode_{e+1}.pth")
+                torch.save(self.model.state_dict(), checkpoint_path)
+                print(f"Checkpoint saved at episode {e+1}")
+        
         torch.save(self.model.state_dict(), save_path)
             
     
@@ -197,6 +216,7 @@ class DQNAgent:
             total_samples = 0
             start = time.time()
             for states, actions in data_loader:
+                states, actions = states.to(self.device), actions.to(self.device)
                 optimizer.zero_grad()
                 outputs = self.model(states)
                 loss = criterion(outputs, actions)
